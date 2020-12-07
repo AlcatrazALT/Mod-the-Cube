@@ -11,9 +11,6 @@ public class Cube : MonoBehaviour
     private float timeSinceChange = 0f;
 
     [SerializeField]
-    private bool canChangeColor = true;
-
-    [SerializeField]
     private float timeToChange = 1f;
 
     private void Start()
