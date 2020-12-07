@@ -2,26 +2,34 @@
 
 public class Cube : MonoBehaviour
 {
-    public MeshRenderer Renderer;
-
+    private MeshRenderer material;
     private Vector3 newPosition = new Vector3(1, 1, 1);
     private readonly float newSize = 2;
+    private float rotationSpeed;
+    private float timeSinceChange = 0f;
 
     [SerializeField]
-    private float rotationSpeed = 15.0f;
+    private float timeToChange = 1f;
 
     private void Start()
     {
+        rotationSpeed = Random.Range(100, 500);
+        Debug.Log(rotationSpeed);
         transform.position = newPosition;
         transform.localScale = Vector3.one * newSize;
 
-        Material material = Renderer.material;
-
-        material.color = new Color(0.5f, 1.0f, 0.3f, 0.4f);
+        material = GetComponent<MeshRenderer>();
     }
 
     private void Update()
     {
-        transform.Rotate(0.0f, rotationSpeed * Time.deltaTime, 0.0f);
+        transform.Rotate(Vector3.forward, Time.deltaTime * rotationSpeed);
+        timeSinceChange += Time.deltaTime;
+        if (material != null && timeSinceChange >= timeToChange)
+        {
+            var newColor = new Color(Random.value, Random.value, Random.value);
+            material.material.color = newColor;
+            timeSinceChange = 0;
+        }
     }
 }
